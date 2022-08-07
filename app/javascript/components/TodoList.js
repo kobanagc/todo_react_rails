@@ -80,8 +80,7 @@ function TodoList() {
       console.log(resp.data)
       setTodos(resp.data);
     })
-    .catch(e => {
-      console.log(e);
+    .catch(e => {      console.log(e);
     })
   }, [])
 
@@ -108,14 +107,57 @@ function TodoList() {
     .then(resp => {
       const newTodos = [...todos]
       newTodos[index].is_completed = resp.data.is_completed
-      setTodos[newTodos]
+      setTodos(newTodos)
     })
   }
 
   return (
-    <div>
-      TodoList
-    </div>
+    <>
+      <h1>Todo List</h1>
+      <SearchAndButton>
+        <SearchForm
+          type="text"
+          placeholder='Search todo...'
+          onChange={event => {
+            setSearchName(event.target.value)
+          }}
+        />
+        <RemoveAllButton onClick={removeAllTodos}>
+          Remove All
+        </RemoveAllButton>
+      </SearchAndButton>
+      <div>
+        {todos.filter((val) => {
+          if(searchName === "") {
+          return val
+        } else if (val.name.toLowerCase().includes(searchName.toLowerCase())) {
+          return val
+        }
+        }).map((val, key) => {
+          return (
+            <Row key={key}>
+              {val.is_completed ? (
+                <CheckedBox>
+                  <ImCheckboxChecked onClick={() => updateIsCompleted(key, val) } />
+                </CheckedBox>
+              ) : (
+                <UncheckedBox>
+                  <ImCheckboxUnchecked onClick={() => updateIsCompleted(key, val) } />
+                </UncheckedBox>
+              )}
+              <TodoName is_completed={val.is_completed}>
+                {val.name}
+              </TodoName>
+              <link to={"/todos/" + val.id + "/edit"}>
+                <EditButton>
+                  <AiFillEdit />
+                </EditButton>
+              </link>
+            </Row>
+          )
+        })}
+      </div>
+    </>
   )
 }
 

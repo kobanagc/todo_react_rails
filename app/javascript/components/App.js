@@ -34,7 +34,7 @@ const NavItem = styled.li`
   opacity: 0.7;
   &:hover {
     opacity: 1;
-  }  
+  }
 `
 
 const Wrapper = styled.div`

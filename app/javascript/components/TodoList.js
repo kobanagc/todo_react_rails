@@ -1,12 +1,11 @@
-import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import axios  from 'axios'
+import axios from 'axios'
 import styled from 'styled-components'
-import { ImCheckboxChecked, ImCheckboxUnchecked} from 'react-icons/im'
+import { ImCheckboxChecked, ImCheckboxUnchecked } from 'react-icons/im'
 import { AiFillEdit } from 'react-icons/ai'
-import { isValidElement } from 'react/cjs/react.production.min'
 
-const SearchAndButton = styled.div`
+const SearchAndButtton = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -49,25 +48,25 @@ const Row = styled.div`
   font-size: 25px;
 `
 
-const CheckedBox = style.div`
+const CheckedBox = styled.div`
   display: flex;
   align-items: center;
-  margin: 0px 7px;
+  margin: 0 7px;
   color: green;
   cursor: pointer;
 `
 
-const UncheckedBox = style.div`
+const UncheckedBox = styled.div`
   display: flex;
   align-items: center;
-  margin: 0px 7px;
+  margin: 0 7px;
   cursor: pointer;
 `
 
 const EditButton = styled.span`
   display: flex;
   align-items: center;
-  margin: 0px 7px;
+  margin: 0 7px;
 `
 
 function TodoList() {
@@ -80,7 +79,8 @@ function TodoList() {
       console.log(resp.data)
       setTodos(resp.data);
     })
-    .catch(e => {      console.log(e);
+    .catch(e => {
+      console.log(e);
     })
   }, [])
 
@@ -100,7 +100,7 @@ function TodoList() {
   const updateIsCompleted = (index, val) => {
     var data = {
       id: val.id,
-      name: val.name,
+      name : val.name,
       is_completed: !val.is_completed
     }
     axios.patch(`/api/v1/todos/${val.id}`, data)
@@ -114,10 +114,10 @@ function TodoList() {
   return (
     <>
       <h1>Todo List</h1>
-      <SearchAndButton>
+      <SearchAndButtton>
         <SearchForm
           type="text"
-          placeholder='Search todo...'
+          placeholder="Search todo..."
           onChange={event => {
             setSearchName(event.target.value)
           }}
@@ -125,14 +125,15 @@ function TodoList() {
         <RemoveAllButton onClick={removeAllTodos}>
           Remove All
         </RemoveAllButton>
-      </SearchAndButton>
+      </SearchAndButtton>
+
       <div>
         {todos.filter((val) => {
           if(searchName === "") {
-          return val
-        } else if (val.name.toLowerCase().includes(searchName.toLowerCase())) {
-          return val
-        }
+            return val
+          } else if (val.name.toLowerCase().includes(searchName.toLowerCase())) {
+            return val
+          }
         }).map((val, key) => {
           return (
             <Row key={key}>
@@ -148,11 +149,11 @@ function TodoList() {
               <TodoName is_completed={val.is_completed}>
                 {val.name}
               </TodoName>
-              <link to={"/todos/" + val.id + "/edit"}>
+              <Link to={"/todos/" + val.id + "/edit"}>
                 <EditButton>
                   <AiFillEdit />
                 </EditButton>
-              </link>
+              </Link>
             </Row>
           )
         })}
